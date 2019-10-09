@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
 
@@ -9,9 +9,11 @@ services:
       POSTGRES_PASSWORD: wikijsrocks
       POSTGRES_USER: wikijs
     logging:
-      driver: "none"
+      driver: 'none'
     volumes:
       - db-data:/var/lib/postgresql/data
+    ports:
+      - '5432'
     networks:
       - wikinet
 
@@ -31,7 +33,7 @@ services:
     networks:
       - wikinet
     ports:
-      - "3000:3000"
+      - '3000:3000'
 
 networks:
   wikinet:
