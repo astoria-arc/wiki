@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+
+  db:
+    image: postgres:9-alpine
+    environment:
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: wikijsrocks
+      POSTGRES_USER: wikijs
+    logging:
+      driver: "none"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - wikinet
+
+  wiki:
+    labels:
+      shipyard.route: '/'
+    image: requarks/wiki:beta
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: wikijsrocks
+      DB_NAME: wiki
+    depends_on:
+      - db
+    networks:
+      - wikinet
+    ports:
+      - "3000:3000"
+
+networks:
+  wikinet:
+
+volumes:
+  db-data:
